@@ -1,0 +1,13 @@
+@model moviemvc.ViewModels.RandomMovieViewModel
+@{
+    ViewData["Title"] = "Random";
+}
+<h1>@Model.Movie.Name</h1>
+
+<ul>
+
+@foreach (var customer in Model.Customers)
+{
+    <li>@customer.Name</li>   
+}
+</ul> 
