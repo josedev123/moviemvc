@@ -10,6 +10,7 @@ namespace moviemvc.Data
     public class ApplicationDbContext : IdentityDbContext
     {
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<MembershipType> MembershipType { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {

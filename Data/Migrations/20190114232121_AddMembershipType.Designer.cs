@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using moviemvc.Data;
 
 namespace moviemvc.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190114232121_AddMembershipType")]
+    partial class AddMembershipType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -191,21 +193,6 @@ namespace moviemvc.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Customers");
-                });
-
-            modelBuilder.Entity("moviemvc.Models.MembershipType", b =>
-                {
-                    b.Property<byte>("Id");
-
-                    b.Property<byte>("DiscountRate");
-
-                    b.Property<byte>("DurationInMonths");
-
-                    b.Property<short>("SignUpFee");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("MembershipType");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
