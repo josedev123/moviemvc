@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using moviemvc.Data;
 using moviemvc.Models;
 using moviemvc.ViewModels;
 
@@ -7,22 +9,34 @@ namespace moviemvc.Controllers
 {
     public class MoviesController : Controller
     {
+        private ApplicationDbContext _context;
+        public MoviesController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            _context.Dispose();
+        }
+
         public ViewResult Index()
         {
-            var movies = GetMovies();
+            var movies = _context.Movies;
 
             return View(movies);    
         }
 
-        private IEnumerable<Movie> GetMovies()
+        public ActionResult Details(int id)
         {
-            return new List<Movie>
-            {
-                new Movie { Id = 1, Name = "Shrek" },
-                new Movie { Id = 2, Name = "Wall-e" }
-            };
-        }
+        var movie = _context.Movies.SingleOrDefault(m => m.Id == id);
 
+            if (movie == null)
+                return NotFound();
+
+            return View(movie);
+
+        }
         // GET: Movies/Random
         public ActionResult Random()
         {
