@@ -1,0 +1,41 @@
+@model moviemvc.ViewModels.NewCustomerViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>New Custmer</h2>
+
+@using (@Html.BeginForm("Create", "Customers"))
+{
+    <div class="form-group">
+        @Html.LabelFor(m => m.Customer.Name)
+        @Html.TextBoxFor(m => m.Customer.Name, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        <label for="Birthdate">Date of Birth</label>
+        @Html.TextBoxFor(m => m.Customer.Birthdate, new { @class = "form-control" })
+    </div>
+
+     <div class="checkbox">
+        <label>
+            @Html.CheckBoxFor(m=>m.Customer.IsSubscribedToNewsletter) Subscribed to Newsletter?
+        </label>
+    </div>
+    
+        <div class="form-group">
+    <select name="Customer.MembershipTypeId" class="form-control">
+    @foreach (var memtype in Model.MembershipTypes)
+{
+    <option value="@memtype.Id">@memtype.Name</option>   
+}
+    </select>
+    
+    </div>
+
+<button type="submit" class="btn btn-primary">Add Customer</button>
+
+}
+
+

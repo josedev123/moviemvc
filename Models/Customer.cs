@@ -8,6 +8,7 @@ namespace moviemvc.Models
         public string Name { get; set; }
         public bool IsSubscribedToNewsletter { get; set; }
         public byte MembershipTypeId { get; set; }
+        
         public string Birthdate { get; set; }
     }
 }
