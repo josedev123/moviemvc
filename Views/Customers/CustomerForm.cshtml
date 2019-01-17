@@ -1,4 +1,4 @@
-@model moviemvc.ViewModels.NewCustomerViewModel
+@model moviemvc.ViewModels.CustomerFormViewModel
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -6,7 +6,7 @@
 
 <h2>New Custmer</h2>
 
-@using (@Html.BeginForm("Create", "Customers"))
+@using (@Html.BeginForm("Save", "Customers"))
 {
     <div class="form-group">
         @Html.LabelFor(m => m.Customer.Name)
@@ -18,23 +18,29 @@
         @Html.TextBoxFor(m => m.Customer.Birthdate, new { @class = "form-control" })
     </div>
 
-     <div class="checkbox">
-        <label>
-            @Html.CheckBoxFor(m=>m.Customer.IsSubscribedToNewsletter) Subscribed to Newsletter?
-        </label>
-    </div>
+
     
         <div class="form-group">
+            <p></p> 
     <select name="Customer.MembershipTypeId" class="form-control">
     @foreach (var memtype in Model.MembershipTypes)
 {
-    <option value="@memtype.Id">@memtype.Name</option>   
-}
+    if(@memtype.Id == @Model.Customer.MembershipTypeId) {
+    <option value="@memtype.Id" selected="selected">@memtype.Name</option>   
+
+    } else {
+            <option value="@memtype.Id">@memtype.Name</option>   
+
+    }
+} 
     </select>
     
     </div>
 
-<button type="submit" class="btn btn-primary">Add Customer</button>
+
+@Html.HiddenFor(m => m.Customer.Id)
+
+<button type="submit" class="btn btn-primary">Save</button>
 
 }
 

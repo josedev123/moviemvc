@@ -37,4 +37,4 @@
 /Users/jose-ims/Projects/moviemvc/obj/Debug/netcoreapp2.2/Razor/Views/Customers/Index.g.cshtml.cs
 /Users/jose-ims/Projects/moviemvc/obj/Debug/netcoreapp2.2/Razor/Views/Movies/index.g.cshtml.cs
 /Users/jose-ims/Projects/moviemvc/obj/Debug/netcoreapp2.2/Razor/Views/Movies/Details.g.cshtml.cs
-/Users/jose-ims/Projects/moviemvc/obj/Debug/netcoreapp2.2/Razor/Views/Customers/New.g.cshtml.cs
+/Users/jose-ims/Projects/moviemvc/obj/Debug/netcoreapp2.2/Razor/Views/Customers/CustomerForm.g.cshtml.cs
