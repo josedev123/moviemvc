@@ -25,10 +25,13 @@
     <select name="Customer.MembershipTypeId" class="form-control">
     @foreach (var memtype in Model.MembershipTypes)
 {
+    if (@Model.Customer != null) { 
     if(@memtype.Id == @Model.Customer.MembershipTypeId) {
     <option value="@memtype.Id" selected="selected">@memtype.Name</option>   
 
-    } else {
+    } 
+    }
+    else {
             <option value="@memtype.Id">@memtype.Name</option>   
 
     }
