@@ -44,21 +44,56 @@ namespace moviemvc.Controllers
 
         //POST /api/apicustomers/
         [HttpPost]
-        public Customer PostCustomer(Customer customer)
+        public Customer PostCustomer([FromBody] Customer customer)
         {
             if(!ModelState.IsValid)
                 return null;
 
-            //var customerd =  customer;   
-            var customerd =  new Customer{ Name ="John Smith+++",IsSubscribedToNewsletter=false,MembershipTypeId=1,Birthdate="6/6/2000"};   
 
-
-
-            _context.Customers.Add(customerd);
+            _context.Customers.Add(customer);
             _context.SaveChanges();
 
-            return customerd;
+            return customer;
         }
+
+        // put
+
+        [HttpPut("{id}")]
+        public Customer PutCustomer(int id, [FromBody] Customer customer)
+        {
+            if(!ModelState.IsValid)
+                return null;
+
+            var customerInDb = _context.Customers.SingleOrDefault(c => c.Id ==id);
+
+            if(customerInDb == null)
+            return null;
+
+            customerInDb.Name = customer.Name;
+            customerInDb.Birthdate = customer.Birthdate;
+            customerInDb.IsSubscribedToNewsletter = customer.IsSubscribedToNewsletter;
+            customerInDb.MembershipTypeId = customer.MembershipTypeId;
+
+            _context.SaveChanges();
+            return customer;
+        }
+
+        [HttpDelete("{id}")]
+        public Customer DeleteCustomer(int id)
+        {
+
+            var customerInDb = _context.Customers.SingleOrDefault(c => c.Id ==id);
+
+            if(customerInDb == null)
+            return null;
+
+            _context.Customers.Remove(customerInDb);
+            _context.SaveChanges();
+
+            return customerInDb;
+        }
+
+
 
     }
 }
