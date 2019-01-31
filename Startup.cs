@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using moviemvc.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using AutoMapper;
 
 namespace moviemvc
 {
@@ -41,6 +42,7 @@ namespace moviemvc
             services.AddDefaultIdentity<IdentityUser>()
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+            Mapper.Initialize(cfg => cfg.AddProfile<MappingProfile>());
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

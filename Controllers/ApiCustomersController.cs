@@ -1,9 +1,13 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using CoreNotes;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using moviemvc.Data;
+using moviemvc.Dtos;
 using moviemvc.Models;
 
 namespace moviemvc.Controllers
@@ -19,47 +23,43 @@ namespace moviemvc.Controllers
         }
         //get /api/apicustomers
         [HttpGet("")]
-        public IEnumerable<Customer> GetCustomers()
+        public IEnumerable<CustomerDto> GetCustomers()
         {
-           return _context.Customers.ToList();
+            return _context.Customers.ToList().Select(Mapper.Map<Customer, CustomerDto>);    
         }
 
         //get /api/apicustomers/1
         [HttpGet("{id}")]
-        public Customer GetCustomer(int id)
+        public ActionResult<Customer> GetCustomer(int id)
         {
-            var customer = _context.Customers.Find(id);
+            var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
 
-            if(customer == null)
-            {
-                return null;
-            }
-                
+            if (customer == null)
+                return NotFound();
 
-            return customer;  
-
-
+            return Ok(Mapper.Map<Customer, CustomerDto>(customer)); 
         }
 
 
         //POST /api/apicustomers/
         [HttpPost]
-        public Customer PostCustomer([FromBody] Customer customer)
+        public ActionResult<Customer> PostCustomer([FromBody] CustomerDto customerDto)
         {
-            if(!ModelState.IsValid)
-                return null;
+            if (!ModelState.IsValid)
+                return BadRequest();
 
-
+            var customer = Mapper.Map<CustomerDto, Customer>(customerDto);
             _context.Customers.Add(customer);
             _context.SaveChanges();
 
-            return customer;
+            customerDto.Id = customer.Id;
+            return Created(new Uri(Request.GetDisplayUrl() + customer.Id), customerDto);
         }
 
         // put
 
         [HttpPut("{id}")]
-        public Customer PutCustomer(int id, [FromBody] Customer customer)
+        public CustomerDto PutCustomer(int id, [FromBody] CustomerDto customerDto)
         {
             if(!ModelState.IsValid)
                 return null;
@@ -69,13 +69,11 @@ namespace moviemvc.Controllers
             if(customerInDb == null)
             return null;
 
-            customerInDb.Name = customer.Name;
-            customerInDb.Birthdate = customer.Birthdate;
-            customerInDb.IsSubscribedToNewsletter = customer.IsSubscribedToNewsletter;
-            customerInDb.MembershipTypeId = customer.MembershipTypeId;
+                        Mapper.Map(customerDto, customerInDb);
+
 
             _context.SaveChanges();
-            return customer;
+            return customerDto;
         }
 
         [HttpDelete("{id}")]
