@@ -45,7 +45,7 @@ namespace moviemvc.Controllers
 
         //POST /api/apicustomers/
         [HttpPost]
-        public ActionResult<Customer> PostCustomer([FromBody] CustomerDto customerDto)
+        public ActionResult<CustomerDto> PostCustomer([FromBody] CustomerDto customerDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest();

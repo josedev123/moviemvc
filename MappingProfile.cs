@@ -6,9 +6,16 @@ namespace moviemvc
 {
 public class MappingProfile : Profile {
     public MappingProfile() {
-        // Add as many of these lines as you need to map your objects
+
+        // Domain to Dto
         CreateMap<Customer, CustomerDto>();
-        CreateMap<CustomerDto, Customer>();
-    }
+        CreateMap<Movie, MovieDto>();
+
+        // Dto to Domain
+        CreateMap<CustomerDto, Customer>().ForMember(c => c.Id, opt => opt.Ignore());
+
+        CreateMap<MovieDto, Movie>().ForMember(c => c.Id, opt => opt.Ignore());
+
+        }
 }
 }
