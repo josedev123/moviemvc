@@ -23,14 +23,16 @@ namespace moviemvc.Controllers
         }
         //get /api/apicustomers
         [HttpGet("")]
-        public IEnumerable<CustomerDto> GetCustomers()
+        public ActionResult<CustomerDto> GetCustomers()
         {
-            return _context.Customers.ToList().Select(Mapper.Map<Customer, CustomerDto>);    
+            var customerDtos = _context.Customers.ToList().Select(Mapper.Map<Customer, CustomerDto>);
+
+            return Ok(customerDtos);    
         }
 
         //get /api/apicustomers/1
         [HttpGet("{id}")]
-        public ActionResult<Customer> GetCustomer(int id)
+        public ActionResult<CustomerDto> GetCustomer(int id)
         {
             var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
 
@@ -59,36 +61,36 @@ namespace moviemvc.Controllers
         // put
 
         [HttpPut("{id}")]
-        public CustomerDto PutCustomer(int id, [FromBody] CustomerDto customerDto)
+        public ActionResult PutCustomer(int id, [FromBody] CustomerDto customerDto)
         {
             if(!ModelState.IsValid)
-                return null;
+                return BadRequest();
 
             var customerInDb = _context.Customers.SingleOrDefault(c => c.Id ==id);
 
             if(customerInDb == null)
-            return null;
+            return NotFound();
 
-                        Mapper.Map(customerDto, customerInDb);
+            Mapper.Map(customerDto, customerInDb);
 
 
             _context.SaveChanges();
-            return customerDto;
+            return Ok();
         }
 
         [HttpDelete("{id}")]
-        public Customer DeleteCustomer(int id)
+        public ActionResult DeleteCustomer(int id)
         {
 
             var customerInDb = _context.Customers.SingleOrDefault(c => c.Id ==id);
 
             if(customerInDb == null)
-            return null;
+            return NotFound();
 
             _context.Customers.Remove(customerInDb);
             _context.SaveChanges();
 
-            return customerInDb;
+            return Ok();
         }
 
 
